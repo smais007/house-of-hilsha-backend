@@ -48,7 +48,7 @@ export async function requireAuth(
       email: session.user.email,
       name: session.user.name,
       emailVerified: session.user.emailVerified,
-      image: session.user.image,
+      image: session.user.image || "",
     };
     req.session = {
       id: session.session.id,
@@ -107,7 +107,7 @@ export async function optionalAuth(
         email: session.user.email,
         name: session.user.name,
         emailVerified: session.user.emailVerified,
-        image: session.user.image,
+        image: session.user.image || "",
       };
       req.session = {
         id: session.session.id,
