@@ -13,6 +13,7 @@ import { Schema, model, Document } from "mongoose";
 export interface IUserProfile extends Document {
   authUserId: string; // Reference to Better Auth user ID
   email: string;
+  role: "customer" | "admin";
   displayName?: string;
   avatar?: string;
   bio?: string;
@@ -43,6 +44,11 @@ const userProfileSchema = new Schema<IUserProfile>(
       unique: true,
       lowercase: true,
       trim: true,
+    },
+    role: {
+      type: String,
+      enum: ["customer", "admin"],
+      default: "customer",
     },
     displayName: {
       type: String,
