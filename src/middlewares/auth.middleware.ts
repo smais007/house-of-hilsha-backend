@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { authService } from "../services/auth.service.js";
 import { AppError } from "./error.middleware.js";
+import { UserProfile } from "../models/user.model.js";
 
 /**
  * Auth Middleware
@@ -17,6 +18,7 @@ declare global {
         name: string;
         emailVerified: boolean;
         image?: string;
+        role?: "customer" | "admin";
       };
       session?: {
         id: string;
@@ -119,5 +121,43 @@ export async function optionalAuth(
   } catch (error) {
     // Don't throw error, just continue without user
     next();
+  }
+}
+
+/**
+ * Require Admin Role Middleware
+ * Blocks access if user is not an admin
+ * Must be used after requireAuth
+ */
+export async function requireAdmin(
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      throw new AppError("Unauthorized - Please sign in to continue", 401);
+    }
+
+    // Look up the user's profile to check their role
+    const userProfile = await UserProfile.findOne({ authUserId: req.user.id });
+
+    if (!userProfile) {
+      throw new AppError("User profile not found", 404);
+    }
+
+    if (userProfile.role !== "admin") {
+      throw new AppError(
+        "Forbidden - Admin access required for this resource",
+        403
+      );
+    }
+
+    // Attach role to request user object
+    req.user.role = userProfile.role;
+
+    next();
+  } catch (error) {
+    next(error);
   }
 }
