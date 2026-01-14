@@ -8,6 +8,7 @@ import { env } from "./config/env.js";
 import authRoutes from "./routes/auth.routes.js";
 import aboutRoutes from "./routes/about.routes.js";
 import siteInfoRoutes from "./routes/siteInfo.routes.js";
+import galleryRoutes from "./routes/gallery.routes.js";
 import {
   errorHandler,
   notFoundHandler,
@@ -93,6 +94,9 @@ export function createApp(): Application {
 
   // Site info routes
   app.use("/site-info", siteInfoRoutes);
+
+  // Gallery routes
+  app.use("/gallery", galleryRoutes);
 
   // 404 handler
   app.use(notFoundHandler);
