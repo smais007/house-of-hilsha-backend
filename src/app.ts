@@ -6,6 +6,8 @@ import { toNodeHandler } from "better-auth/node";
 import { auth } from "./config/betterAuth.js";
 import { env } from "./config/env.js";
 import authRoutes from "./routes/auth.routes.js";
+import aboutRoutes from "./routes/about.routes.js";
+import siteInfoRoutes from "./routes/siteInfo.routes.js";
 import {
   errorHandler,
   notFoundHandler,
@@ -85,6 +87,12 @@ export function createApp(): Application {
 
   // Custom auth routes
   app.use("/auth", authRoutes);
+
+  // About page routes
+  app.use("/about", aboutRoutes);
+
+  // Site info routes
+  app.use("/site-info", siteInfoRoutes);
 
   // 404 handler
   app.use(notFoundHandler);
