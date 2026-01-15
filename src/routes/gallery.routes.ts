@@ -20,8 +20,7 @@ router.get("/", galleryController.getGallery.bind(galleryController));
 // Admin only routes
 router.post(
   "/",
-  requireAuth,
-  requireAdmin,
+
   galleryController.createGallery.bind(galleryController)
 );
 

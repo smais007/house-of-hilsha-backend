@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.routes.js";
 import aboutRoutes from "./routes/about.routes.js";
 import siteInfoRoutes from "./routes/siteInfo.routes.js";
 import galleryRoutes from "./routes/gallery.routes.js";
+import specialOffersRoutes from "./routes/specialOffers.routes.js";
 import {
   errorHandler,
   notFoundHandler,
@@ -97,6 +98,9 @@ export function createApp(): Application {
 
   // Gallery routes
   app.use("/gallery", galleryRoutes);
+
+  // Special offers routes
+  app.use("/special-offers", specialOffersRoutes);
 
   // 404 handler
   app.use(notFoundHandler);
